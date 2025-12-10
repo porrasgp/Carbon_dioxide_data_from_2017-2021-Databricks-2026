@@ -22,7 +22,7 @@ jobs:
               
 
     - name: Copy .cdsapirc to home directory
-      run: cp Landing/.cdsapirc ~/.cdsapirc
+      run: cp ETL_process/Landing/.cdsapirc ~/.cdsapirc
 
     - name: CDS_to_Lading_Databricks.py
       working-directory: Landing
