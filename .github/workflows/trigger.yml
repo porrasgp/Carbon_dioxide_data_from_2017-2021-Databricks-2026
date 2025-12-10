@@ -1,0 +1,35 @@
+name: Python application
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.X'
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install setuptools openpyxl xarray cdsapi boto3 python-dotenv netCDF4 numpy h5netcdf tenacity
+              
+
+    - name: Copy .cdsapirc to home directory
+      run: cp Landing/.cdsapirc ~/.cdsapirc
+
+    - name: CDS_to_Lading_Databricks.py
+      working-directory: Landing
+      run: python CDS_to_Lading_Databricks.py
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB }}
+
+
