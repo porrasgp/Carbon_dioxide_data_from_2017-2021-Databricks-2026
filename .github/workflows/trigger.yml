@@ -25,7 +25,7 @@ jobs:
       run: cp Landing/.cdsapirc ~/.cdsapirc
 
     - name: CDS_to_Lading_Databricks.py
-      working-directory: Landing
+      working-directory: ./Landing
       run: python CDS_to_Lading_Databricks.py
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
