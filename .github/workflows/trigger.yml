@@ -28,9 +28,9 @@ jobs:
       working-directory: ETL_process/Landing
       run: python CDS_to_Lading_Databricks.py
       env:
-        AZURE_CONNECTION_STRING : ${{ AZURE_STORAGE_CONNECTION_STRING }}
-        AZURE_ACCOUNT_NAME: ${{ AZURE_STORAGE_ACCOUNT_NAME }}
-        AZURE_CONTAINER_NAME: ${{ AZURE_CONTAINER_NAME }}
+        AZURE_CONNECTION_STRING : ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        AZURE_ACCOUNT_NAME: ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_CONTAINER_NAME: ${{ secrets.AZURE_CONTAINER_NAME }}
 
         
 
