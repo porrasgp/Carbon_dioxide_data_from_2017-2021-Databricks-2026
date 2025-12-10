@@ -29,7 +29,7 @@ load_dotenv()
 # 🔵 Azure Blob Storage Config
 AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
 AZURE_ACCOUNT_NAME = os.getenv("AZURE_STORAGE_ACCOUNT_NAME")
-AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "climate-data")
+AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "raw")
 
 # Validar configuración de Azure
 if not AZURE_CONNECTION_STRING and not AZURE_ACCOUNT_NAME:
