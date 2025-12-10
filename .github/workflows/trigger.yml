@@ -28,8 +28,10 @@ jobs:
       working-directory: ETL_process/Landing
       run: python CDS_to_Lading_Databricks.py
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB }}
+        AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+        AZURE_ACCOUNT_NAME = os.getenv("AZURE_STORAGE_ACCOUNT_NAME")
+        AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME", "climate-data")
+
+        
 
 
