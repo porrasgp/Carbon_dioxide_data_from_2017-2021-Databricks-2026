@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip
-        pip install setuptools openpyxl xarray cdsapi boto3 python-dotenv netCDF4 h5netcdf tenacity
+        pip install setuptools azure.storage.blob openpyxl xarray cdsapi boto3 python-dotenv netCDF4 h5netcdf tenacity
               
 
     - name: Copy .cdsapirc to home directory
