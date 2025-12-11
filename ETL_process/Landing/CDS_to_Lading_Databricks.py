@@ -65,10 +65,13 @@ except Exception as e:
 
 # Ensure container exists
 try:
-    blob_service_client.create_container(AZURE_CONTAINER_NAME, fail_on_exist=False)
-    logger.info(f"📦 Container '{AZURE_CONTAINER_NAME}' ready.")
+    blob_service_client.create_container(AZURE_CONTAINER_NAME)
+    logger.info(f"📦 Contenedor '{AZURE_CONTAINER_NAME}' creado.")
 except AzureError as e:
-    logger.warning(f"⚠️ Container may already exist: {e}")
+    if "ContainerAlreadyExists" in str(e):
+        logger.info(f"📦 Contenedor '{AZURE_CONTAINER_NAME}' ya existe.")
+    else:
+        raise
 
 # ------------------------------------------------------
 # SENSOR CONFIGURATIONS
