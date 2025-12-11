@@ -22,7 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------
-# SSL CONFIG (CDS / ECMWF requirement)
+# SSL CONFIG (CDS / ECMWF requirements)
 # ------------------------------------------------------
 os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 ssl_context = ssl.create_default_context(cafile=certifi.where())
