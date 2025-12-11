@@ -195,25 +195,45 @@ def process_sensor(sensor_name, config):
             "format": "zip"
         }
 
-        tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
-        tmp_path = tmp_file.name
-        tmp_file.close()
+        # Create a temporary directory for extraction
+        with tempfile.TemporaryDirectory() as temp_dir:
+            zip_path = os.path.join(temp_dir, f"{sensor_name}_{year}.zip")
+            
+            try:
+                logger.info(f"🛰️ {sensor_name} - Año {year}")
+                result = download_data(client, request)
+                result.download(zip_path)
 
-        try:
-            logger.info(f"🛰️ {sensor_name} - Año {year}")
-            result = download_data(client, request)
-            result.download(tmp_path)
+                # Extract the ZIP file
+                logger.info(f"📦 Extrayendo archivos para {sensor_name} {year}")
+                with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                    # Get list of files in the ZIP
+                    file_list = zip_ref.namelist()
+                    
+                    # Extract all files to temporary directory
+                    zip_ref.extractall(temp_dir)
+                    
+                    # Upload each extracted file individually
+                    for file_name in file_list:
+                        file_path = os.path.join(temp_dir, file_name)
+                        
+                        # Check if it's a file (not a directory)
+                        if os.path.isfile(file_path):
+                            # Create blob path: sensor_name/year/file_name
+                            blob_name = f"{sensor_name}/{year}/{file_name}"
+                            
+                            logger.info(f"📤 Subiendo: {file_name}")
+                            upload_to_azure_blob(file_path, blob_name)
 
-            blob_name = f"climate-data/{sensor_name}/{year}/data.zip"
-            upload_to_azure_blob(tmp_path, blob_name)
+                logger.info(f"✅ {sensor_name} {year}: {len(file_list)} archivos subidos")
 
-        except Exception as e:
-            logger.error(f"⛔ Error en {sensor_name} {year}: {e}")
-
-        finally:
-            if os.path.exists(tmp_path):
-                os.remove(tmp_path)
-                logger.info(f"🧹 Temp eliminado: {tmp_path}")
+            except zipfile.BadZipFile:
+                logger.error(f"⛔ {sensor_name} {year}: Archivo ZIP corrupto")
+            except Exception as e:
+                logger.error(f"⛔ Error en {sensor_name} {year}: {e}")
+            finally:
+                # Cleanup - temporary directory will be automatically cleaned when exiting context
+                pass
 
 # ------------------------------------------------------
 # MAIN
@@ -228,7 +248,7 @@ def main():
     logger.info("🎉 Pipeline completado exitosamente.")
 
     final_url = AZURE_ACCOUNT_NAME or "unknown"
-    logger.info(f"📁 Datos en: https://{final_url}.blob.core.windows.net/{AZURE_CONTAINER_NAME}/climate-data/")
+    logger.info(f"📁 Datos en: https://{final_url}.blob.core.windows.net/{AZURE_CONTAINER_NAME}/")
 
 if __name__ == "__main__":
     main()
