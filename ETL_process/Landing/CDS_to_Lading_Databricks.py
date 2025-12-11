@@ -32,10 +32,10 @@ ssl_context = ssl.create_default_context(cafile=certifi.where())
 # ------------------------------------------------------
 load_dotenv()
 
-AZURE_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-AZURE_ACCOUNT_NAME = os.getenv("AZURE_STORAGE_ACCOUNT_NAME")
-AZURE_CONTAINER_NAME = os.getenv("AZURE_CONTAINER_NAME")
-AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
+AZURE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=databrickscopernicus;AccountKey=9CvYEsjID0vaQd632QJigQT512fhsx+s8GQObuSAxlLxRKJNOuTLi0G8yLfERN+0RrrI/rYv3o33+AStPE98aw==;EndpointSuffix=core.windows.net"
+AZURE_ACCOUNT_NAME = "databrickscopernicus"
+AZURE_CONTAINER_NAME = "raw"
+AZURE_ACCOUNT_KEY = "0fYLcHeLi2Z3+tuRxQGHbTy1ltMNs6gc73hHPihy+1XuInEKrt2G3BGNhsru2ey51VkP3sp9Mry1+ASth4P4tQ=="
 
 
 print(AZURE_CONNECTION_STRING)
