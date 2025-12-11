@@ -227,8 +227,6 @@ def process_sensor(sensor_name, config):
 
                 logger.info(f"✅ {sensor_name} {year}: {len(file_list)} archivos subidos")
 
-            except zipfile.BadZipFile:
-                logger.error(f"⛔ {sensor_name} {year}: Archivo ZIP corrupto")
             except Exception as e:
                 logger.error(f"⛔ Error en {sensor_name} {year}: {e}")
             finally:
